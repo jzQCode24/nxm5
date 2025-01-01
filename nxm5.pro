@@ -19,7 +19,6 @@ SOURCES += \
 HEADERS += \
     dblinkedlist.h \
     dblistnode.h \
-
     dynamicarray.h \
     mainwindow.h
  
