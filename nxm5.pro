@@ -14,13 +14,15 @@ SOURCES += \
     dynamicarray.cpp \
     main.cpp \
     mainwindow.cpp \
-    numgroup.cpp
+    numgroup.cpp \
+    singlenode.cpp
 
 HEADERS += \
     dblinkedlist.h \
     dblistnode.h \
     dynamicarray.h \
-    mainwindow.h
+    mainwindow.h \
+    singlenode.h
  
 
 FORMS += \
