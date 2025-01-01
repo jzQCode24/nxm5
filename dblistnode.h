@@ -4,11 +4,11 @@
 template <typename E, typename K, typename V>
 class DbListNode {
 private:
-    E data;            // 数据元素
-    K key;             // 关键字
-    V value;           // 关键字对应的值
-    DbListNode* prev;  // 前驱节点
-    DbListNode* next;  // 后继节点
+    E data;
+    K key;
+    V value;
+    DbListNode* prev;
+    DbListNode* next;
 
 public:
     DbListNode(const E& data, const K& key, const V& value);

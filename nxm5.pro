@@ -11,12 +11,14 @@ CONFIG += c++17
 SOURCES += \
     dblinkedlist.cpp \
     dblistnode.cpp \
+    dynamicarray.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     dblinkedlist.h \
     dblistnode.h \
+    dynamicarray.h \
     mainwindow.h
 
 FORMS += \

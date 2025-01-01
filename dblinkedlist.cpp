@@ -1,7 +1,5 @@
 #include "DbLinkedList.h"
 
-// DbLinkedList 类的实现
-
 template <typename E, typename K, typename V>
 DbLinkedList<E, K, V>::DbLinkedList() : head(nullptr), tail(nullptr), size(0) {}
 
@@ -46,6 +44,35 @@ void DbLinkedList<E, K, V>::insertAtTail(const E& data, const K& key, const V& v
     ++size;
 }
 
+
+template <typename E, typename K, typename V>
+void DbLinkedList<E, K, V>::Insert(const K& key, const E& data, const K& newKey, const V& newValue) {
+
+    DbListNode<E, K, V>* current = head;
+    while (current != nullptr) {
+        if (current->getKey() == key) {
+
+            DbListNode<E, K, V>* newNode = new DbListNode<E, K, V>(data, newKey, newValue);
+
+            DbListNode<E, K, V>* nextNode = current->getNext();
+
+            current->setNext(newNode);
+            newNode->setPrev(current);
+
+            if (nextNode != nullptr) {
+                nextNode->setPrev(newNode);
+                newNode->setNext(nextNode);
+            } else {
+                tail = newNode;
+            }
+
+            ++size;
+            return;
+        }
+        current = current->getNext();
+    }
+
+}
 template <typename E, typename K, typename V>
 void DbLinkedList<E, K, V>::removeFromHead() {
     if (isEmpty()) {
@@ -56,7 +83,7 @@ void DbLinkedList<E, K, V>::removeFromHead() {
     if (head != nullptr) {
         head->setPrev(nullptr);
     } else {
-        tail = nullptr;  // 如果链表为空，更新尾节点
+        tail = nullptr;
     }
     delete temp;
     --size;
@@ -72,7 +99,7 @@ void DbLinkedList<E, K, V>::removeFromTail() {
     if (tail != nullptr) {
         tail->setNext(nullptr);
     } else {
-        head = nullptr;  // 如果链表为空，更新头节点
+        head = nullptr;
     }
     delete temp;
     --size;
@@ -87,7 +114,7 @@ DbListNode<E, K, V>* DbLinkedList<E, K, V>::Search(const K& key) {
         }
         current = current->getNext();
     }
-    return nullptr;  // 如果找不到，返回 nullptr
+    return nullptr;
 }
 
 template <typename E, typename K, typename V>

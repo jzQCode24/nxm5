@@ -1,14 +1,14 @@
 #ifndef DBLINKEDLIST_H
 #define DBLINKEDLIST_H
 
-#include "DbListNode.h"  // 引入 DbListNode
+#include "DbListNode.h"
 
 template <typename E, typename K, typename V>
 class DbLinkedList {
 private:
-    DbListNode<E, K, V>* head;  // 头节点
-    DbListNode<E, K, V>* tail;  // 尾节点
-    int size;                   // 链表大小
+    DbListNode<E, K, V>* head;
+    DbListNode<E, K, V>* tail;
+    int size;
 
 public:
     DbLinkedList();
@@ -19,6 +19,7 @@ public:
 
     void insertAtHead(const E& data, const K& key, const V& value);
     void insertAtTail(const E& data, const K& key, const V& value);
+    void Insert(const K& key, const E& data, const K& newKey, const V& newValue);
     void removeFromHead();
     void removeFromTail();
 
