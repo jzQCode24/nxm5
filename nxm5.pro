@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     dblinkedlist.cpp \
     dblistnode.cpp \
+    dynamicarray.cpp \
     main.cpp \
     mainwindow.cpp \
     numgroup.cpp
@@ -18,8 +19,10 @@ SOURCES += \
 HEADERS += \
     dblinkedlist.h \
     dblistnode.h \
-    mainwindow.h \
-    numgroup.h
+
+    dynamicarray.h \
+    mainwindow.h
+ 
 
 FORMS += \
     mainwindow.ui

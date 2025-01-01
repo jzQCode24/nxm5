@@ -83,3 +83,7 @@ void DynamicArray<E>::print() const {
     }
 }
 
+// 显式实例化模板类
+// template class DynamicArray<int>;
+// template class DynamicArray<double>;
+// template class DynamicArray<QString>;
