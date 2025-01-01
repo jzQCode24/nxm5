@@ -12,12 +12,14 @@ SOURCES += \
     dblinkedlist.cpp \
     dblistnode.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    numgroup.cpp
 
 HEADERS += \
     dblinkedlist.h \
     dblistnode.h \
-    mainwindow.h
+    mainwindow.h \
+    numgroup.h
 
 FORMS += \
     mainwindow.ui
