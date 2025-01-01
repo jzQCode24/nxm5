@@ -1,16 +1,18 @@
 #ifndef DYNAMICARRAY_H
 #define DYNAMICARRAY_H
 
-#include "singlenode.h"
+#include "dblinkedlist.h"  // 引入双链表的头文件
+#include <stdexcept>  // 异常处理
 
-template <typename E>
+template <typename E, typename K, typename V>
 class DynamicArray {
 private:
-    Node<E>* head;  // 链表的头指针
-    Node<E>* tail;  // 链表的尾指针
-    Node<E>** array;  // 用于加速随机访问的数组
-    int size;  // 当前数组的大小（链表长度）
-    int capacity;  // 当前链表的容量（链表节点的数量）
+    DbLinkedList<E, K, V>** array;  // 用于存储双链表指针的数组
+    int size=0;  // 当前元素个数
+    int capacity=10;  // 当前数组的容量
+
+    // 扩容
+    void resizeList();
 
 public:
     // 构造函数
@@ -19,17 +21,14 @@ public:
     // 析构函数
     ~DynamicArray();
 
-    // 获取当前链表大小
+    // 获取当前元素个数
     int getSize() const;
 
     // 向链表末尾添加一个元素
-    void add(const E& element);
+    void add(const E& data, const K& key, const V& value);
 
     // 访问指定位置的元素（带越界检查）
-    E& operator[](int i);
-
-    // 扩容（将容量翻倍）
-    void resizeList();
+    DbLinkedList<E, K, V>* operator[](int i);  // 访问的是链表对象指针
 
     // 清空链表
     void clear();

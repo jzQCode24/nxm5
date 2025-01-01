@@ -7,7 +7,7 @@
 template <typename E, typename K, typename V>
 class ExpandableLinkedHashTable {
 private:
-    DynamicArray<DbLinkedList<E, K, V>*> table;  // 使用动态数组代替双链表的桶数组
+    DynamicArray table;  // 使用动态数组代替双链表的桶数组
     int size;  // 当前元素的数量
     int capacity;  // 当前桶的数量
     double maxLoadFactor;  // 最大负载因子
@@ -55,4 +55,4 @@ public:
 };
 
 #endif // EXPANDABLELINKEDHASHTABLE_H
-a
+
