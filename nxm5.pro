@@ -14,7 +14,6 @@ SOURCES += \
     dynamicarray.cpp \
     main.cpp \
     mainwindow.cpp \
-    numgroup.cpp \
     singlenode.cpp
 
 HEADERS += \

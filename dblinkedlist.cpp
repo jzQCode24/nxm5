@@ -5,7 +5,7 @@ DbLinkedList<E, K, V>::DbLinkedList() : head(nullptr), tail(nullptr), size(0) {}
 
 template <typename E, typename K, typename V>
 DbLinkedList<E, K, V>::~DbLinkedList() {
-    clear();
+    Clear();
 }
 
 template <typename E, typename K, typename V>
@@ -139,7 +139,7 @@ void DbLinkedList<E, K, V>::Remove(const K& key) {
 }
 
 template <typename E, typename K, typename V>
-void DbLinkedList<E, K, V>::clear() {
+void DbLinkedList<E, K, V>::Clear() {
     while (!isEmpty()) {
         removeFromHead();
     }

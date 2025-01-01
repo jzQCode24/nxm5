@@ -25,7 +25,7 @@ public:
 
     DbListNode<E, K, V>* Search(const K& key);
     void Remove(const K& key);
-    void clear();
+    void Clear();
 
     class iterator {
     private:
