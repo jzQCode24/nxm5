@@ -12,6 +12,7 @@ SOURCES += \
     dblinkedlist.cpp \
     dblistnode.cpp \
     dynamicarray.cpp \
+    expandablelinkedhashtable.cpp \
     main.cpp \
     mainwindow.cpp \
     numgroup.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     dblinkedlist.h \
     dblistnode.h \
     dynamicarray.h \
+    expandablelinkedhashtable.h \
     mainwindow.h \
     singlenode.h
  
