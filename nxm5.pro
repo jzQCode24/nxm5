@@ -13,13 +13,16 @@ SOURCES += \
     dblistnode.cpp \
     dynamicarray.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    numgroup.cpp
 
 HEADERS += \
     dblinkedlist.h \
     dblistnode.h \
+
     dynamicarray.h \
     mainwindow.h
+ 
 
 FORMS += \
     mainwindow.ui
