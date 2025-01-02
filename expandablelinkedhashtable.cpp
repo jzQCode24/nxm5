@@ -7,7 +7,7 @@
 template <typename E, typename K, typename V>
 class ExpandableLinkedHashTable {
 private:
-    DynamicArray<DbLinkedList<E, K, V>*> table;  // 使用动态数组代替双链表的桶数组
+    DynamicArray<DbLinkedList<E, K, V>*,K,V> table;  // 使用动态数组代替双链表的桶数组
     int size;  // 当前元素的数量
     int capacity;  // 当前桶的数量
     double maxLoadFactor;  // 最大负载因子
@@ -66,7 +66,7 @@ template <typename E, typename K, typename V>
 ExpandableLinkedHashTable<E, K, V>::ExpandableLinkedHashTable(int initialSize, double maxLoadFactor)
     : size(0), capacity(initialSize), maxLoadFactor(maxLoadFactor) {
     // 初始化桶数组
-    table = DynamicArray<DbLinkedList<E, K, V>*>(capacity);
+    table = DynamicArray<DbLinkedList<E, K, V>*,K,V>(capacity);
     for (int i = 0; i < capacity; ++i) {
         table[i] = nullptr;
     }
@@ -130,11 +130,10 @@ int ExpandableLinkedHashTable<E, K, V>::Remove(const K& key, E& e) {
     }
     return 0;  // 没有找到元素
 }
-
 template <typename E, typename K, typename V>
 void ExpandableLinkedHashTable<E, K, V>::resizeTable() {
     int newCapacity = capacity * 2;
-    DynamicArray<DbLinkedList<E, K, V>*> newTable(newCapacity);
+    DynamicArray<DbLinkedList<E, K, V>*,K,V> newTable(newCapacity);
 
     // 初始化新的桶数组
     for (int i = 0; i < newCapacity; ++i) {

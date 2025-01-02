@@ -13,6 +13,7 @@ SOURCES += \
     dblistnode.cpp \
     dynamicarray.cpp \
     expandablelinkedhashtable.cpp \
+    hashmap.cpp \
     main.cpp \
     mainwindow.cpp \
     singlenode.cpp
@@ -22,6 +23,7 @@ HEADERS += \
     dblistnode.h \
     dynamicarray.h \
     expandablelinkedhashtable.h \
+    hashmap.h \
     mainwindow.h \
     singlenode.h
  

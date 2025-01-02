@@ -1,99 +1,64 @@
 #include "dynamicarray.h"
 
-// 构造函数
 template <typename E, typename K, typename V>
 DynamicArray<E, K, V>::DynamicArray(int initialCapacity)
-    : size(0), capacity(initialCapacity), head(nullptr), tail(nullptr) {
-    // 为加速访问分配一个新的数组
-    array = new Node<E, K, V>*[capacity];
+    : size(0), capacity(initialCapacity) {
+    // 为数组分配内存
+    array = new DbLinkedList<E, K, V>*[capacity];
+
+    // 初始化所有指针为 nullptr
     for (int i = 0; i < capacity; ++i) {
         array[i] = nullptr;
     }
 }
 
-// 析构函数
 template <typename E, typename K, typename V>
 DynamicArray<E, K, V>::~DynamicArray() {
-    clear();
-    delete[] array;
+    // 删除每个链表
+    for (int i = 0; i < capacity; ++i) {
+        if (array[i]) {
+            delete array[i];  // 删除链表
+        }
+    }
+    delete[] array;  // 删除数组本身
 }
 
-// 获取当前元素个数
 template <typename E, typename K, typename V>
 int DynamicArray<E, K, V>::getSize() const {
     return size;
 }
 
-// 向链表末尾添加一个元素
+template <typename E, typename K, typename V>
+DbLinkedList<E, K, V>* DynamicArray<E, K, V>::operator[](int i) {
+    if (i < 0 || i >= capacity) {
+        throw std::out_of_range("Index out of range");
+    }
+    return array[i];
+}
+
 template <typename E, typename K, typename V>
 void DynamicArray<E, K, V>::add(const E& data, const K& key, const V& value) {
-    Node<E, K, V>* newNode = new Node<E, K, V>(data, key, value);
+    // 计算桶索引
+    int index = key % capacity;  // 假设使用简单的取模哈希方法
 
-    if (tail) {
-        tail->next = newNode;  // 如果链表非空，将新节点连接到尾节点
-    } else {
-        head = newNode;  // 如果链表为空，将新节点设置为头节点
+    // 如果该位置没有链表，创建一个新的链表
+    if (!array[index]) {
+        array[index] = new DbLinkedList<E, K, V>();
     }
 
-    tail = newNode;  // 更新尾节点为新节点
+    // 将元素添加到对应的链表中
+    array[index]->addNode(data, key, value);
     ++size;
-
-    // 如果链表大小超过当前容量，进行扩容
-    if (size > capacity) {
-        resizeList();
-    }
-
-    // 将新节点存储到加速访问的数组中
-    array[size - 1] = newNode;
 }
 
-// 扩容（将容量翻倍）
-template <typename E, typename K, typename V>
-void DynamicArray<E, K, V>::resizeList() {
-    capacity *= 2;  // 容量翻倍
-    Node<E, K, V>** newArray = new Node<E, K, V>*[capacity];  // 创建一个新的数组
-
-    // 将原来的链表节点复制到新的数组中
-    for (int i = 0; i < size; ++i) {
-        newArray[i] = array[i];
-    }
-
-    // 删除旧的数组
-    delete[] array;
-    array = newArray;
-}
-
-// 访问指定位置的元素（带越界检查）
-template <typename E, typename K, typename V>
-E& DynamicArray<E, K, V>::operator[](int i) {
-    if (i < 0 || i >= size) {
-        throw std::out_of_range("Index out of bounds");  // 越界检查
-    }
-    return array[i]->data;  // 通过数组直接访问链表节点
-}
-
-// 根据关键字获取对应的值
-template <typename E, typename K, typename V>
-V DynamicArray<E, K, V>::getValueByKey(const K& key) const {
-    Node<E, K, V>* current = head;
-    while (current) {
-        if (current->key == key) {
-            return current->value;  // 找到匹配的关键字，返回对应的值
-        }
-        current = current->next;
-    }
-    throw std::invalid_argument("Key not found");  // 如果没有找到对应的关键字
-}
-
-// 清空链表
 template <typename E, typename K, typename V>
 void DynamicArray<E, K, V>::clear() {
-    Node<E, K, V>* current = head;
-    while (current) {
-        Node<E, K, V>* temp = current;
-        current = current->next;
-        delete temp;  // 删除节点
+    for (int i = 0; i < capacity; ++i) {
+        if (array[i]) {
+            array[i]->clear();  // 清空链表
+            delete array[i];  // 删除链表
+            array[i] = nullptr;  // 置为空
+        }
     }
-    head = tail = nullptr;
     size = 0;
 }
