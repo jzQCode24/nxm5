@@ -1,57 +1,34 @@
 #ifndef EXPANDABLELINKEDHASHTABLE_H
 #define EXPANDABLELINKEDHASHTABLE_H
 
-#include "dynamicarray.h"  // 使用你提供的动态数组实现
-#include "dblinkedlist.h"  // 使用你提供的双链表实现
 
-template <typename E, typename K, typename V>
+#include "DynamicArray.h"
+#include <utility> // 包含std::pair
+#include "DbLinkedList.h"
+
+template <typename K, typename V>
 class ExpandableLinkedHashTable {
 private:
-    DynamicArray<DbLinkedList<E, K, V>*,K,V> table;  // 使用动态数组代替双链表的桶数组
-    int size;  // 当前元素的数量
-    int capacity;  // 当前桶的数量
-    double maxLoadFactor;  // 最大负载因子
+    DynamicArray<DbLinkedList<std::pair<K, V>>> buckets; // 使用DynamicArray存储链表
+    int size;
+    double maxLoadFactor;
 
-    // 内部函数：扩展散列表容量
-    void resizeTable();
-
-    // 内部哈希函数
-    int hash(const K& key) const;
+    void resize(); // 调整散列表大小的函数
+    int getBucketIndex(const K& key) const; // 获取键对应的桶索引
 
 public:
-    // 构造函数
-    ExpandableLinkedHashTable(int initialSize = 16, double maxLoadFactor = 0.7);
-
-    // 析构函数
+    ExpandableLinkedHashTable(int initialSize = 16, double maxLoadFactor = 0.7); // 默认构造函数
     ~ExpandableLinkedHashTable();
-
-    // 插入一个元素
-    bool Insert(const E& e);
-
-    // 查找元素
-    bool Search(const K& key) const;
-
-    // 删除一个元素
-    int Remove(const K& key, E& e);
-
-    // 清空散列表
-    void Clear();
-
-    // 获取当前散列表的大小
-    int GetSize() const;
-
-    // 获取桶数
-    int GetCapacity() const;
-
-
-    // 获取第 i 个桶的元素数量
-    int getBucketSize(int i) const;
-
-    // 获取指定键的桶序号
-    int getBucket(const K& k) const;
-
-    // 查找指定键的节点，并返回桶序号
-    DbListNode<E, K, V>* findPos(const K& key, int& bucket) const;
+    DbListNode<std::pair<K, V>>* findPos(const K& key, int &bucket) const; // 获取散列表中指定键 key 映射到的双向链表结点
+    bool Search(const K& key) const; // 在散列表中查找
+    bool Insert(const std::pair<K, V>& e); // 将元素 e 插入到散列表中
+    int Remove(const K& key, V& e); // 将给定值从散列表中删除
+    void resizeTable(); // 散列表会自动增加桶的数量以保持负载因子低于 maxLoadFactor
+    void Clear(); // 移除所有元素（已销毁），并保留大小为 0 的散列表
+    int getCapacity() const; // 获取散列表的容量
+    int getSize() const; // 获取散列表中键值对的数量
+    int getBucket(const K& k) const; // 返回 k 对应的桶序号
+    int getBucketSize(int i) const; // 返回第 i 个桶的元素数
 };
 
 #endif // EXPANDABLELINKEDHASHTABLE_H

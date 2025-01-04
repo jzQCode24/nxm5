@@ -1,5 +1,7 @@
-// HashMap.cpp
 #include "HashMap.h"
+#include <functional>
+#include <cmath> // 包含std::hash
+#include <set>
 
 template <typename K, typename V>
 HashMap<K, V>::HashMap(int initialSize, double maxLoadFactor)
@@ -7,72 +9,82 @@ HashMap<K, V>::HashMap(int initialSize, double maxLoadFactor)
 
 template <typename K, typename V>
 V& HashMap<K, V>::getValue(const K& key) {
-    std::pair<K, V> keyValuePair(key, V());
     int bucket;
-    auto* node = hashTable.findPos(key, bucket);
-    if (node != nullptr) {
-        return node->getValue().second;
+    DbListNode<std::pair<K, V>>* node = hashTable.findPos(key, bucket);
+    if (node) {
+        return node->getData().second;
     } else {
-        throw std::out_of_range("Key not found");
+        static V defaultVal;
+        return defaultVal;
     }
 }
 
 template <typename K, typename V>
-void HashMap<K, V>::insert(const std::pair<K, V>& keyValuePair) {
-    hashTable.Insert(keyValuePair);
+std::set<K> HashMap<K, V>::keySet() {
+    std::set<K> keys;
+    for (int i = 0; i < hashTable.getCapacity(); ++i) {
+        DbLinkedList<std::pair<K, V>>& bucket = hashTable.buckets[i];
+        DbListNode<std::pair<K, V>>* node = bucket.getHead();
+        while (node != nullptr) {
+            keys.insert(node->getData().first);
+            node = node->getNext();
+        }
+    }
+    return keys;
 }
 
 template <typename K, typename V>
 bool HashMap<K, V>::containsKey(const K& key) const {
-    return hashTable.Search(key);
+    return hashTable.containsKey(key);
+}
+
+template <typename K, typename V>
+void HashMap<K, V>::Insert(const std::pair<K, V>& k_v) {
+    hashTable.put(k_v.first, k_v.second);
 }
 
 template <typename K, typename V>
 V& HashMap<K, V>::Remove(const K& key) {
-    std::pair<K, V> keyValuePair(key, V());
+    V temp;
     int bucket;
-    auto* node = hashTable.findPos(key, bucket);
-    if (node != nullptr) {
-        std::pair<K, V> removed = node->getValue();
-        hashTable.Remove(key, removed);
-        return removed.second;
-    } else {
-        throw std::out_of_range("Key not found");
+    DbListNode<std::pair<K, V>>* node = hashTable.findPos(key, bucket);
+    if (node) {
+        temp = node->getData().second;
+        hashTable.Remove(key, temp);
     }
+    static V defaultVal;
+    return temp;
 }
 
 template <typename K, typename V>
 V& HashMap<K, V>::Remove(const K& key, const V& val) {
-    std::pair<K, V> keyValuePair(key, val);
+    V temp;
     int bucket;
-    auto* node = hashTable.findPos(key, bucket);
-    if (node != nullptr && node->getValue() == keyValuePair) {
-        hashTable.Remove(key, keyValuePair);
-        return keyValuePair.second;
-    } else {
-        throw std::out_of_range("Key-value pair not found");
+    DbListNode<std::pair<K, V>>* node = hashTable.findPos(key, bucket);
+    if (node && node->getData().second == val) {
+        temp = node->getData().second;
+        hashTable.Remove(key, temp);
     }
+    static V defaultVal;
+    return temp;
 }
 
 template <typename K, typename V>
 void HashMap<K, V>::Clear() {
-    hashTable.Clear();
+    hashTable.clear();
 }
 
 template <typename K, typename V>
 int HashMap<K, V>::getSize() const {
-    return hashTable.GetSize();
+    return hashTable.getSize();
 }
 
 template <typename K, typename V>
-std::set<K> HashMap<K, V>::keySet() const {
-    std::set<K> keys;
-    for (int i = 0; i < hashTable.GetCapacity(); ++i) {
-        if (auto* list = hashTable.table[i]) { // Assuming table is accessible
-            for (auto& node : *list) {
-                keys.insert(node.getKey());
-            }
-        }
-    }
-    return keys;
+HashMap<K, V>::~HashMap() {
+    hashTable.~ExpandableLinkedHashTable();
+}
+
+template <typename K, typename V>
+void HashMap<K, V>::resizeTable() {
+    hashTable.resizeTable();
 }
