@@ -3,45 +3,25 @@
 
 #include "DbListNode.h"
 
-template <typename E, typename K, typename V>
+template <typename E>
 class DbLinkedList {
 private:
-    DbListNode<E, K, V>* head;
-    DbListNode<E, K, V>* tail;
+    DbListNode<E>* head;
+    DbListNode<E>* tail;
     int size;
 
 public:
-    DbLinkedList();
-    ~DbLinkedList();
-
-    bool isEmpty() const;
-    int getSize() const;
-
-    void insertAtHead(const E& data, const K& key, const V& value);
-    void insertAtTail(const E& data, const K& key, const V& value);
-    void Insert(const K& key, const E& data, const K& newKey, const V& newValue);
-    void removeFromHead();
-    void removeFromTail();
-
-    DbListNode<E, K, V>* Search(const K& key);
-    void Remove(const K& key);
-    void Clear();
-
-    class iterator {
-    private:
-        DbListNode<E, K, V>* current;
-
-    public:
-        iterator(DbListNode<E, K, V>* startNode);
-
-        E& operator*();
-        iterator& operator++();
-        bool operator!=(const iterator& other);
-    };
-
-    iterator begin();
-    iterator end();
+    DbLinkedList(); // 构造函数
+    ~DbLinkedList(); // 析构函数
+    bool isEmpty() const; // 判断是否为空
+    int getSize() const; // 获取大小
+    void insertAtHead(const E& data); // 在头部插入
+    void insertAtTail(const E& data); // 在尾部插入
+    void removeFromHead(); // 从头部移除
+    void removeFromTail(); // 从尾部移除
+    DbListNode<E>* Search(const E& data); // 搜索节点
+    void Remove(const E& data); // 移除节点
+    void Clear(); // 清空链表
 };
-
 
 #endif // DBLINKEDLIST_H

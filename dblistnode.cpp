@@ -1,57 +1,34 @@
 #include "DbListNode.h"
 
-// DbListNode 类的实现
+template <typename E>
+DbListNode<E>::DbListNode(const E& data) : data(data), prev(nullptr), next(nullptr) {}
 
-template <typename E, typename K, typename V>
-DbListNode<E, K, V>::DbListNode(const E& data, const K& key, const V& value)
-    : data(data), key(key), value(value), prev(nullptr), next(nullptr) {}
-
-template <typename E, typename K, typename V>
-E DbListNode<E, K, V>::getData() const {
+template <typename E>
+E DbListNode<E>::getData() const {
     return data;
 }
 
-template <typename E, typename K, typename V>
-void DbListNode<E, K, V>::setData(const E& data) {
+template <typename E>
+void DbListNode<E>::setData(const E& data) {
     this->data = data;
 }
 
-template <typename E, typename K, typename V>
-K DbListNode<E, K, V>::getKey() const {
-    return key;
-}
-
-template <typename E, typename K, typename V>
-void DbListNode<E, K, V>::setKey(const K& key) {
-    this->key = key;
-}
-
-template <typename E, typename K, typename V>
-V DbListNode<E, K, V>::getValue() const {
-    return value;
-}
-
-template <typename E, typename K, typename V>
-void DbListNode<E, K, V>::setValue(const V& value) {
-    this->value = value;
-}
-
-template <typename E, typename K, typename V>
-DbListNode<E, K, V>* DbListNode<E, K, V>::getPrev() const {
+template <typename E>
+DbListNode<E>* DbListNode<E>::getPrev() const {
     return prev;
 }
 
-template <typename E, typename K, typename V>
-void DbListNode<E, K, V>::setPrev(DbListNode* prev) {
+template <typename E>
+void DbListNode<E>::setPrev(DbListNode* prev) {
     this->prev = prev;
 }
 
-template <typename E, typename K, typename V>
-DbListNode<E, K, V>* DbListNode<E, K, V>::getNext() const {
+template <typename E>
+DbListNode<E>* DbListNode<E>::getNext() const {
     return next;
 }
 
-template <typename E, typename K, typename V>
-void DbListNode<E, K, V>::setNext(DbListNode* next) {
+template <typename E>
+void DbListNode<E>::setNext(DbListNode* next) {
     this->next = next;
 }
